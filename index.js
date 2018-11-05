@@ -1,17 +1,22 @@
 const Todo = require('./models/Todo');
 const User = require('./models/User');
 
-User.getAll()
-    .then(results => {
-        console.log(results);
-        console.log(`yep those were the users. cool.`)
-    })
+// User.getAll()
+//     .then(results => {
+//         console.log(results);
+//         console.log(`yep those were the users. cool.`)
+//     })
 
-// Todo.getById(2)
+// User.getById(2)
 //     .then(result => { console.log(result); })
 
 // Todo.getById(2000000)
 //     .then(result => { console.log(result); })
+
+// User.add('jeff')
+//     .then(result => {
+//         console.log(result);
+//     })
 
 // Todo.add('walk the chewbacca', false)
 //     .catch(err => {
@@ -23,7 +28,7 @@ User.getAll()
 
 
 
-// Todo.updateName(2, 'buy new hyperdrive')
+// User.updateName(6, 'JEEEEEEEEEEEEEEEf')
 //     .then(result => {
 //         console.log(result);
 //     })
@@ -35,8 +40,8 @@ User.getAll()
 
 
 
-Todo.deleteById(1)
-    .then(result => {
-        console.log(result.rowCount);
-    })
+// User.deleteById(6)
+//     .then(result => {
+//         console.log(result.rowCount);
+//     })
 
