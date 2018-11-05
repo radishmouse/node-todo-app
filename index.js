@@ -57,15 +57,44 @@ function getById(id){
 //         console.log(result);
 //     })
 
+
+// UPDATE
+function updateCompleted(id, didComplete) {
+    return db.result(`update todos 
+        set completed=$2 
+    where id=$1`, [id, didComplete])    
+}
+
+// example of updating a row
+function markCompleted(id) {
+    return updateCompleted(id, true);
+    // return db.result(`update todos 
+	//                     set completed=$2 
+	//                 where id=$1`, [id, true]);
+}
+
+function markPending(id) {
+    return updateCompleted(id, false);
+    // return db.result(`update todos 
+	//                     set completed=$2 
+	//                 where id=$1`, [id, false]);
+}
+
+// markPending(1)
+//     .then(result => {
+//         console.log(result);
+//     })
+
+function updateName(id, name) {
+
+}
+
+
+// DELETE
 // example of deleting a row
 function deleteById(id){
     return db.result(`delete from todos where id = $1`, [id])
 }
-
-// UPDATE
-// example of updating a row
-
-// DELETE
 // deleteById(10)
 //     .then(result => {
 //         console.log(result.rowCount);
