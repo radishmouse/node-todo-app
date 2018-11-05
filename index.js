@@ -59,6 +59,18 @@ function getById(id){
 
 
 // UPDATE
+
+function updateName(id, name) {
+    return db.result(`update todos
+        set name=$2
+    where id=$1`, [id, name]);
+}
+
+updateName(2, 'buy new hyperdrive')
+    .then(result => {
+        console.log(result);
+    })
+
 function updateCompleted(id, didComplete) {
     return db.result(`update todos 
         set completed=$2 
@@ -67,17 +79,17 @@ function updateCompleted(id, didComplete) {
 
 // example of updating a row
 function markCompleted(id) {
-    return updateCompleted(id, true);
-    // return db.result(`update todos 
-	//                     set completed=$2 
-	//                 where id=$1`, [id, true]);
+    // return updateCompleted(id, true);
+    return db.result(`update todos 
+	                    set completed=$2 
+	                where id=$1`, [id, true]);
 }
 
 function markPending(id) {
-    return updateCompleted(id, false);
-    // return db.result(`update todos 
-	//                     set completed=$2 
-	//                 where id=$1`, [id, false]);
+    // return updateCompleted(id, false);
+    return db.result(`update todos 
+	                    set completed=$2 
+	                where id=$1`, [id, false]);
 }
 
 // markPending(1)
@@ -85,9 +97,6 @@ function markPending(id) {
 //         console.log(result);
 //     })
 
-function updateName(id, name) {
-
-}
 
 
 // DELETE
