@@ -6,3 +6,5 @@
 
 - create the users table
 - add some seed data
+
+## Then add models

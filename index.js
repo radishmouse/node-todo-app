@@ -1,13 +1,27 @@
 const Todo = require('./models/Todo');
 const User = require('./models/User');
 
+// User.getTodosForUser(3)
+//     .then(result => { console.log(result); })
+
+// Todo.assignToUser(2, 2)
+//     .then(() => {
+//         User.getTodosForUser(2)
+//         .then(result => { console.log(result); })    
+//     })
+
+User.getAll()
+    .then(result => { console.log(result); })
+
+
+    
 // User.getAll()
 //     .then(results => {
 //         console.log(results);
 //         console.log(`yep those were the users. cool.`)
 //     })
 
-// User.getById(2)
+// User.getById('chris')
 //     .then(result => { console.log(result); })
 
 // Todo.getById(2000000)
