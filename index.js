@@ -1,20 +1,18 @@
+const Todo = require('./models/Todo');
 
-
-// getAll()
+// Todo.getAll()
 //     .then(results => {
 //         console.log(results);
 //         console.log(`yep those were the todos. cool.`)
 //     })
 
-// getById(2)
+// Todo.getById(2)
 //     .then(result => { console.log(result); })
 
-// getById(2000000)
+// Todo.getById(2000000)
 //     .then(result => { console.log(result); })
 
-
-
-// add('walk the chewbacca', false)
+// Todo.add('walk the chewbacca', false)
 //     .catch(err => {
 //         console.log(err);
 //     })
@@ -24,20 +22,20 @@
 
 
 
-// updateName(2, 'buy new hyperdrive')
+// Todo.updateName(2, 'buy new hyperdrive')
 //     .then(result => {
 //         console.log(result);
 //     })
 
-// markPending(1)
+// Todo.markCompleted(1)
 //     .then(result => {
 //         console.log(result);
 //     })
 
 
 
-// deleteById(10)
-//     .then(result => {
-//         console.log(result.rowCount);
-//     })
+Todo.deleteById(1)
+    .then(result => {
+        console.log(result.rowCount);
+    })
 
