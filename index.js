@@ -1,10 +1,11 @@
 const Todo = require('./models/Todo');
+const User = require('./models/User');
 
-// Todo.getAll()
-//     .then(results => {
-//         console.log(results);
-//         console.log(`yep those were the todos. cool.`)
-//     })
+User.getAll()
+    .then(results => {
+        console.log(results);
+        console.log(`yep those were the users. cool.`)
+    })
 
 // Todo.getById(2)
 //     .then(result => { console.log(result); })
