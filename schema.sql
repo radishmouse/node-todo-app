@@ -8,3 +8,11 @@ create table todos (
   name text,
   completed boolean
 );
+
+-- USERs
+-- name
+
+create table users (
+  id serial primary key,
+  name text
+);
