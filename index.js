@@ -1,12 +1,29 @@
 require('dotenv').config();
 
-// const Todo = require('./models/Todo');
+const express = require('express');
+const app = express();
+
 const User = require('./models/User');
 
-User.searchByName('aylin')
-    .then(users => {
-        console.log(users);
-    });
+app.get('/', (req, res) => {
+    res.send('you should try /users');
+});
+
+app.get('/users', (req, res) => {
+    User.searchByName('aylin')
+        .then(users => {
+            // console.log(users);
+            res.send(users);
+        });
+})
+
+app.listen(3000, () => {
+    console.log('And you get a server...');
+    console.log('And you get a server...');
+    console.log('And you get a server...');
+})
+
+// const Todo = require('./models/Todo');
 
 // User.getById(6)
 //     .then(u => {
