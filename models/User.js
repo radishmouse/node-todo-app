@@ -23,18 +23,35 @@ class User {
             values
                 ($1)
             returning id    
-        `, [name])
-        .then(data => {
-            const u = new User(data.id, name);
-            return u;
-        });
+            `, [name])
+            .then(data => {
+                const u = new User(data.id, name);
+                return u;
+            });
     }
     
 
-
     // RETRIEVE
-    getById() {
-        return db.one('select * from users where id = $1', [this.id]);
+    static getAll() {
+        return db.any(`
+            select * from users
+        `).then(userArray => {
+            // transform array of objects
+            // into array of User instances
+            const instanceArray = userArray.map(userObj => {
+                const u = new User(userObj.id, userObj.name);
+                return u;
+            });
+            return instanceArray;
+        })
+    }
+
+    static getById(id) {
+        return db.one('select * from users where id = $1', [id])
+            .then(result => {
+                const u = new User(result.id, result.name);
+                return u;
+            })
     }
     
     getTodos() {
@@ -43,7 +60,6 @@ class User {
                 where user_id = $1
         `, [this.id]);
     }
-    
 
     // UPDATE
 
@@ -68,17 +84,17 @@ class User {
 
 // ============================================
 // CREATE
-function add(name) {
-    return db.one(`
-        insert into users 
-            (name)
-        values
-            ($1)
-        returning id    
-    `, [name])
-}
+// function add(name) {
+//     return db.one(`
+//         insert into users 
+//             (name)
+//         values
+//             ($1)
+//         returning id    
+//     `, [name])
+// }
 
-// ============================================
+// // ============================================
 // RETRIEVE
 function getAll() {
     return db.any(`
@@ -94,16 +110,16 @@ function getAll() {
     `);
 }
 
-function getById(id) {
-    return db.one('select * from users where id = $1', [id]);
-}
+// function getById(id) {
+//     return db.one('select * from users where id = $1', [id]);
+// }
 
-function getTodosForUser(id) {
-    return db.any(`
-        select * from todos
-            where user_id = $1
-    `, [id]);
-}
+// function getTodosForUser(id) {
+//     return db.any(`
+//         select * from todos
+//             where user_id = $1
+//     `, [id]);
+// }
 
 // ============================================
 // UPDATE

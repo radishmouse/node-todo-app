@@ -3,17 +3,53 @@ require('dotenv').config();
 // const Todo = require('./models/Todo');
 const User = require('./models/User');
 
+User.getAll()
+    .then(allUsers => {
+        allUsers.forEach(user => {
+            console.log(user.name);
+        });
+    })
+
+// User.getById(1)
+//     .then(userFromDB => {
+//         console.log(userFromDB);
+//         userFromDB.getTodos()
+//             .then(todos => {
+//                 console.log(todos);
+//             })
+//     });
+
 // const beth = new User(2, 'beth');
 // beth.getTodos()
 //     .then(result => { console.log(result); })
 
-User.add('jeff')
-    .then(theNewUser => {
-        theNewUser.getTodos()
-            .then(todos => {
-                console.log(`${theNewUser.name} has ${todos.length} things todo`);
-            })
-    })
+// let newUsers = [
+//     'jeff',
+//     'brandy',
+//     'zack',
+//     'tasha',
+//     'jenn',
+//     'cori'
+// ];
+
+// newUsers.forEach(u => {
+//     User.add(u)
+//         .then(aNewUser => {
+//             aNewUser.addTodo('do the thing');
+//         })
+// });
+
+
+
+
+
+// User.add('jeff')
+//     .then(theNewUser => {
+//         theNewUser.getTodos()
+//             .then(todos => {
+//                 console.log(`${theNewUser.name} has ${todos.length} things todo`);
+//             })
+//     })
 
 
 // const skyler = new User('Skyler the Dog');
