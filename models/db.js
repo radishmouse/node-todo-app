@@ -9,9 +9,9 @@ const pgp = require('pg-promise')({
     }
 });
 const db = pgp({
-    host: 'localhost',
-    port: 5432,
-    database: 'node-todo-app-db'
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    database: process.env.DB_NAME,
 });
 // ============================================
 
