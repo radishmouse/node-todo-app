@@ -3,10 +3,15 @@ require('dotenv').config();
 // const Todo = require('./models/Todo');
 const User = require('./models/User');
 
-User.getById(6)
-    .then(u => {
-        u.delete();
+User.searchByName('jef')
+    .then(users => {
+        console.log(users);
     });
+
+// User.getById(6)
+//     .then(u => {
+//         u.delete();
+//     });
 
 // User.deleteById(8);
 
@@ -50,6 +55,8 @@ User.getById(6)
 
 
 
+// User.add('jeff')
+// User.add('jeff')
 // User.add('jeff')
 //     .then(theNewUser => {
 //         theNewUser.getTodos()

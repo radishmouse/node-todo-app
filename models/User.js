@@ -53,6 +53,13 @@ class User {
                 return u;
             })
     }
+
+    static searchByName(name) {
+        return db.any(`
+            select * from users
+                where name ilike '%$1:raw%'
+        `, [name])
+    }
     
     getTodos() {
         return db.any(`
@@ -60,6 +67,8 @@ class User {
                 where user_id = $1
         `, [this.id]);
     }
+
+
 
     // UPDATE
 
