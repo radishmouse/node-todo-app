@@ -16,13 +16,28 @@ class User {
     }
 
     // CREATE
+    static add(name) {
+        return db.one(`
+            insert into users 
+                (name)
+            values
+                ($1)
+            returning id    
+        `, [name])
+        .then(data => {
+            const u = new User(data.id, name);
+            return u;
+        });
+    }
+    
+
 
     // RETRIEVE
     getById() {
         return db.one('select * from users where id = $1', [this.id]);
     }
     
-    getTodosForUser() {
+    getTodos() {
         return db.any(`
             select * from todos
                 where user_id = $1
@@ -36,9 +51,9 @@ class User {
 
     // // a method is a function "belongs"
     // // to an object
-    // greet(otherUser) {
-    //     console.log(`Hello ${otherUser.name}, I am ${this.name}`);
-    // }
+    greet(otherUser) {
+        console.log(`Hello ${otherUser.name}, I am ${this.name}`);
+    }
 }
 
 

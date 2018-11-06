@@ -3,14 +3,23 @@ require('dotenv').config();
 // const Todo = require('./models/Todo');
 const User = require('./models/User');
 
-const beth = new User(2, 'beth');
-beth.getTodosForUser()
-    .then(result => { console.log(result); })
+// const beth = new User(2, 'beth');
+// beth.getTodos()
+//     .then(result => { console.log(result); })
+
+User.add('jeff')
+    .then(theNewUser => {
+        theNewUser.getTodos()
+            .then(todos => {
+                console.log(`${theNewUser.name} has ${todos.length} things todo`);
+            })
+    })
+
 
 // const skyler = new User('Skyler the Dog');
 // const ahjuma = new User('Ahjuma the Impressive');
 
-// debugger;
+// // debugger;
 
 // skyler.greet(ahjuma);
 // ahjuma.greet(skyler);
