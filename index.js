@@ -3,12 +3,19 @@ require('dotenv').config();
 // const Todo = require('./models/Todo');
 const User = require('./models/User');
 
-User.getAll()
-    .then(allUsers => {
-        allUsers.forEach(user => {
-            console.log(user.name);
-        });
-    })
+User.getById(6)
+    .then(u => {
+        u.delete();
+    });
+
+// User.deleteById(8);
+
+// User.getAll()
+//     .then(allUsers => {
+//         allUsers.forEach(user => {
+//             console.log(user.name);
+//         });
+//     })
 
 // User.getById(1)
 //     .then(userFromDB => {

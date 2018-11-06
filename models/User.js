@@ -64,6 +64,20 @@ class User {
     // UPDATE
 
     // DELETE
+    delete(){
+        return db.result(`
+        delete from users
+        where id = $1
+        `, [this.id]);        
+    }
+
+    static deleteById(id) {
+        return db.result(`
+        delete from users
+        where id = $1
+        `, [id]);
+    }
+
 
     // // a method is a function "belongs"
     // // to an object
@@ -96,19 +110,19 @@ class User {
 
 // // ============================================
 // RETRIEVE
-function getAll() {
-    return db.any(`
-        select  
-            users.id,
-            users.name,
-            t.name as todo,
-            t.completed as completed
-        from 
-            users
-            left join todos t
-            on users.id = t.user_id
-    `);
-}
+// function getAll() {
+//     return db.any(`
+//         select  
+//             users.id,
+//             users.name,
+//             t.name as todo,
+//             t.completed as completed
+//         from 
+//             users
+//             left join todos t
+//             on users.id = t.user_id
+//     `);
+// }
 
 // function getById(id) {
 //     return db.one('select * from users where id = $1', [id]);
@@ -133,12 +147,12 @@ function updateName(id, name) {
 
 // ============================================
 // DELETE
-function deleteById(id) {
-    return db.result(`
-    delete from users
-    where id = $1
-    `, [id]);
-}
+// function deleteById(id) {
+//     return db.result(`
+//     delete from users
+//     where id = $1
+//     `, [id]);
+// }
 
 // ============================================
 
