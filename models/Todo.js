@@ -1,12 +1,4 @@
-// const pgPromise = require('pg-promise');
-// const pgp = pgPromise();
-const pgp = require('pg-promise')();
-
-const db = pgp({
-    host: 'localhost',
-    port: 5432,
-    database: 'node-todo-app-db'
-});
+const db = require('./db');
 
 
 // CREATE
@@ -37,6 +29,15 @@ function getById(id){
 }
 
 // UPDATE
+
+function assignToUser(todoId, userId) {
+    return db.result(`
+        update todos
+            set user_id = $2
+        where id = $1    
+    `, [todoId, userId]);
+}
+
 // example of updating a row
 function updateName(id, name) {
     return db.result(`update todos
@@ -73,6 +74,7 @@ function deleteById(id){
 
 module.exports = {
     add,
+    assignToUser,
     deleteById,
     getAll,
     getById,
