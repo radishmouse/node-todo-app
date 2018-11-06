@@ -1,13 +1,29 @@
 require('dotenv').config();
 
-const Todo = require('./models/Todo');
+// const Todo = require('./models/Todo');
 const User = require('./models/User');
 
-User.deleteById(2)
+const beth = new User(2, 'beth');
+beth.getTodosForUser()
     .then(result => { console.log(result); })
 
-Todo.deleteById(1)
-    .then(result => { console.log(result); })
+// const skyler = new User('Skyler the Dog');
+// const ahjuma = new User('Ahjuma the Impressive');
+
+// debugger;
+
+// skyler.greet(ahjuma);
+// ahjuma.greet(skyler);
+
+// let u = User.findById(1);
+// u.name = 'eileeeeeeen';
+// u.save();
+
+// User.deleteById('asdfasdfasf')
+//     .then(result => { console.log(result); })
+
+// Todo.deleteById(1)
+//     .then(result => { console.log(result); })
 
 // User.getTodosForUser(3)
 //     .then(result => { console.log(result); })
