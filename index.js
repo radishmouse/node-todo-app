@@ -3,7 +3,7 @@ require('dotenv').config();
 // const Todo = require('./models/Todo');
 const User = require('./models/User');
 
-User.searchByName('a')
+User.searchByName('aylin')
     .then(users => {
         console.log(users);
     });
