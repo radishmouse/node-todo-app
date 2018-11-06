@@ -69,8 +69,14 @@ class User {
     }
 
 
-
     // UPDATE
+    updateName(name) {
+        return db.result(`
+            update users
+                set name=$2
+            where id=$1
+        `, [this.id, name]);
+    }
 
     // DELETE
     delete(){
@@ -146,13 +152,13 @@ class User {
 
 // ============================================
 // UPDATE
-function updateName(id, name) {
-    return db.result(`
-        update users
-            set name=$2
-        where id=$1
-    `, [id, name]);
-}
+// function updateName(id, name) {
+//     return db.result(`
+//         update users
+//             set name=$2
+//         where id=$1
+//     `, [id, name]);
+// }
 
 // ============================================
 // DELETE
