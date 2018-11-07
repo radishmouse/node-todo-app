@@ -147,6 +147,9 @@ class User {
 // ============================================
 // UPDATE
 function updateName(id, name) {
+    this.name = name; // We need to update the object!
+
+    // ...and not just the database.
     return db.result(`
         update users
             set name=$2
