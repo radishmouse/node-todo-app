@@ -21,14 +21,18 @@ app.get('/users', (req, res) => {
 app.get(`/users/:id(\\d+)`, (req, res) => {
     // console.log(req.params.id);
     User.getById(req.params.id)
-        .then(theUser => {
-            res.send(theUser);
-        })
         .catch(err => {
             res.send({
                 message: `no soup for you`
             });
         })
+        .then(theUser => {
+            res.send(theUser);
+        })
+});
+
+app.get('/users/register', (req, res) => {
+    res.send('you are on the registration page. no really.');
 });
 
 
