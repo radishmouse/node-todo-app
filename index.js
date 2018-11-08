@@ -2,6 +2,13 @@ require('dotenv').config();
 
 const express = require('express');
 const app = express();
+const bodyParser = require('body-parser');
+
+// Configure body-parser to read data sent by HTML form tags
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// Configure body-parser to read JSON bodies
+app.use(bodyParser.json());
 
 // const Todo = require('./models/Todo');
 const User = require('./models/User');
@@ -13,6 +20,42 @@ app.get('/users', (req, res) => {
             // res.status(200).json(allUsers);
             res.send(allUsers);
         })
+});
+
+// Listen for POST requests
+app.post('/users', (req, res) => {
+    console.log(req.body);
+    // res.send('ok');
+    const newUsername = req.body.name;
+    console.log(newUsername);
+    User.add(newUsername)
+        .then(theUser => {
+            res.send(theUser);
+        })
+});
+
+app.post('/users/:id(\\d+)', (req, res) => {
+    const id = req.params.id;
+    const newName = req.body.name;
+    console.log(id);
+    console.log(newName);
+    // res.send('ok');
+
+    // Get the user by their id
+    User.getById(id)
+        .then(theUser => {
+            // call that user's updateName method
+            theUser.updateName(newName)
+                .then(result => {
+                    if (result.rowCount === 1) {
+                        res.send('yeah you did');
+                    } else {
+                        res.send('oops');
+                    }
+                });
+            
+        });
+
 });
 
 // Match the string "/users/" followed by one or more digits
