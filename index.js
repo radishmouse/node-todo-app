@@ -35,11 +35,19 @@ app.get('/users/register', (req, res) => {
     res.send('you are on the registration page. no really.');
 });
 
+app.get('/users/:id(\\d+)/rename/:newName', (req, res) => {
+    User.getById(req.params.id)
+        .then(user => {
+            user.updateName(req.params.newName)
+                .then(() => {
+                    res.send('you just renamed them!');
+                })
+        })
+});
 
 app.listen(3000, () => {
     console.log('You express app is ready!');
 });
-
 
 
 // ===== example of sending a whole page
