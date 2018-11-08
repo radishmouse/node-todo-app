@@ -52,6 +52,9 @@ class User {
                 const u = new User(result.id, result.name);
                 return u;
             })
+            // .catch(err => {
+            //     return err;
+            // })
     }
 
     static searchByName(name) {
