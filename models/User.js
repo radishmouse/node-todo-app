@@ -58,7 +58,15 @@ class User {
         return db.any(`
             select * from users
                 where name ilike '%$1:raw%'
-        `, [name])
+        `, [name]).then(userArray => {
+            // transform array of objects
+            // into array of User instances
+            const instanceArray = userArray.map(userObj => {
+                const u = new User(userObj.id, userObj.name);
+                return u;
+            });
+            return instanceArray;
+        })
     }
     
     getTodos() {
@@ -71,6 +79,13 @@ class User {
 
 
     // UPDATE
+    updateName(newName) {
+        this.name = newName;
+        return db.result(`
+            update users
+                set name=$2
+            where id=$1`, [this.id, newName]);
+    }
 
     // DELETE
     delete(){
@@ -82,9 +97,17 @@ class User {
 
     static deleteById(id) {
         return db.result(`
-        delete from users
-        where id = $1
-        `, [id]);
+            delete from users
+            where id = $1
+            `, [id])
+            .then(result => {
+                if (result.rowCount === 0) {
+                    return {
+                        message: 'sad puppy face 💩',
+                        id
+                    }
+                }
+            })
     }
 
 

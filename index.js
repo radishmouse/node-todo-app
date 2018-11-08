@@ -5,23 +5,47 @@ const app = express();
 
 const User = require('./models/User');
 
-app.get('/', (req, res) => {
-    res.send('you should try /users');
-});
+// const aUser = new User(1, 'mr bill');
 
-app.get('/users', (req, res) => {
-    User.searchByName('aylin')
-        .then(users => {
-            // console.log(users);
-            res.send(users);
-        });
-})
+User.deleteById(16)
+    .then(console.log);
 
-app.listen(3000, () => {
-    console.log('And you get a server...');
-    console.log('And you get a server...');
-    console.log('And you get a server...');
-})
+
+// #1 User.add gets called
+// User.add('bruce')
+//     .then(anotherUser => {
+//         // #3?
+//         console.log(`${anotherUser.name} has id ${anotherUser.id}`);
+//         return anotherUser.id
+//     }).then((someId) => {
+
+//         User.getById(someId)
+//             .then(aUser => {       
+//                 // #3? 
+//                 console.log(aUser.name);
+//                 aUser.updateName('hater of donuts');
+//             });
+//     })
+
+// #2 User.getById gets called
+
+// app.get('/', (req, res) => {
+//     res.send('you should try /users');
+// });
+
+// app.get('/users', (req, res) => {
+//     User.searchByName('aylin')
+//         .then(users => {
+//             // console.log(users);
+//             res.send(users);
+//         });
+// })
+
+// app.listen(3000, () => {
+//     console.log('And you get a server...');
+//     console.log('And you get a server...');
+//     console.log('And you get a server...');
+// })
 
 // const Todo = require('./models/Todo');
 
