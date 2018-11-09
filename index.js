@@ -17,8 +17,7 @@ const User = require('./models/User');
 
 const page = require('./views/page');
 const userList = require('./views/userList');
-
-;
+const todoList = require('./views/todoList');
 
 app.get('/', (req, res) => {
     const thePage = page('hey there');
@@ -130,6 +129,16 @@ app.get(`/users/:id(\\d+)`, (req, res) => {
         })
         .then(theUser => {
             res.send(theUser);
+        })
+});
+
+app.get(`/users/:id(\\d+)/todos`, (req, res) => {
+    User.getById(req.params.id)
+        .then(theUser => {
+            theUser.getTodos()
+                .then(allTodos => {
+
+                })
         })
 });
 
