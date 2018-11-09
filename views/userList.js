@@ -6,6 +6,7 @@ function userToItem(userObject) {
 }
 function userList(arrayOfUsers) {
     const userItems = arrayOfUsers.map(userToItem).join('');
+    console.log(userItems);
     return `
         <ul>${userItems}</ul>
     `;

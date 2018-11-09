@@ -29,11 +29,12 @@ app.get('/users', (req, res) => {
         .then(allUsers => {
             // res.status(200).json(allUsers);
             // res.send(allUsers);
-            // const usersUL = userList(allUsers);
-            // const thePage = page(usersUL);
-            // res.send(thePage);
+            const usersUL = userList(allUsers);
+            const thePage = page(usersUL);
+            console.log(thePage);
+            res.send(thePage);
 
-            res.send(page(userList(allUsers)));
+            // res.send(page(userList(allUsers)));
         });
 });
 
