@@ -32,6 +32,7 @@ app.get('/users', (req, res) => {
             // res.send(thePage);
 
             res.send(page(userList(allUsers)));
+            
         })
 });
 
@@ -62,7 +63,7 @@ app.post('/users/:id([0-9]+)', (req, res) => {
     // res.send('ok');
 
     // Get the user by their id
-    User.getByName(id)
+    User.getById(id)
         .then(theUser => {
             // call that user's updateName method
             theUser.updateName(newName)
