@@ -137,7 +137,9 @@ app.get(`/users/:id(\\d+)/todos`, (req, res) => {
         .then(theUser => {
             theUser.getTodos()
                 .then(allTodos => {
-
+                    const todosUL = todoList(allTodos);
+                    const thePage = page(todosUL);
+                    res.send(thePage);
                 })
         })
 });

@@ -2,7 +2,7 @@
 function userToItem(userObject) {
     return `
         <li class="user-list-item">
-          <a href="#">
+          <a href="/users/${userObject.id}/todos">
             ${userObject.name}
           </a>
         </li>
