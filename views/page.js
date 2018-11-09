@@ -9,6 +9,7 @@ function page(content) {
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Document</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css">
+        <link rel="stylesheet" href="/stylesheets/index.css">
     </head>
     <body>
         ${content}
