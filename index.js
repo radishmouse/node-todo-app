@@ -13,12 +13,25 @@ app.use(bodyParser.json());
 // const Todo = require('./models/Todo');
 const User = require('./models/User');
 
+const page = require('./views/page');
+const userList = require('./views/userList');
+
+app.get('/', (req, res) => {
+    const thePage = page('hey there');
+    res.send(thePage);
+});
+
 // Listen for a GET request
 app.get('/users', (req, res) => {
     User.getAll()
         .then(allUsers => {
             // res.status(200).json(allUsers);
-            res.send(allUsers);
+            // res.send(allUsers);
+            // const usersUL = userList(allUsers);
+            // const thePage = page(usersUL);
+            // res.send(thePage);
+
+            res.send(page(userList(allUsers)));
         })
 });
 
