@@ -18,6 +18,8 @@ const User = require('./models/User');
 const page = require('./views/page');
 const userList = require('./views/userList');
 
+;
+
 app.get('/', (req, res) => {
     const thePage = page('hey there');
     res.send(thePage);

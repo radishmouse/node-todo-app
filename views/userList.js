@@ -1,7 +1,7 @@
 
 function userToItem(userObject) {
     return `
-        <li>${userObject.name}</li>
+        <li class="user-list-item">${userObject.name}</li>
     `;
 }
 function userList(arrayOfUsers) {
