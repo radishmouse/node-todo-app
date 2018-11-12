@@ -8,7 +8,7 @@ values
     ('return david bowie''s texts', false);
 
 insert into users
-    (name, username, password)
+    (name, username, pwhash)
 values
     ('aylin', 'aylin', '$2b$10$QUJ346ylCYC7rIS2cbqEq.l4o.HCL6r.pZokcF6Tivha/UTXDi.JK'),
     ('beth', 'beth', '$2b$10$QUJ346ylCYC7rIS2cbqEq.l4o.HCL6r.pZokcF6Tivha/UTXDi.JK'),

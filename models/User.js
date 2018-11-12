@@ -1,4 +1,7 @@
 const db = require('./db');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+
 
 // declare a class named "User"
 class User {
@@ -7,25 +10,27 @@ class User {
     // `constructor` is a method
     // that is automatically 
     // called when you create a user
-    constructor(id, name) {
+    constructor(id, name, username) {
         // define properties that
         // are also the names
         // of the database columns
         this.id = id;
         this.name = name;
+        this.username = username;        
     }
 
     // CREATE
-    static add(name) {
+    static add(name, username, password) {
+        const salt = bcrypt.genSaltSync(saltRounds);
+        const hash = bcrypt.hashSync(password, salt);
         return db.one(`
             insert into users 
-                (name)
+                (name, username, pwhash)
             values
-                ($1)
-            returning id  
-            `, [name])
+                ($1, $2, $3)
+            returning id`, [name, username, hash])
             .then(data => {
-                const u = new User(data.id, name);
+                const u = new User(data.id, name, username);
                 return u;
             });
     }

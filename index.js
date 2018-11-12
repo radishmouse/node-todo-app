@@ -20,6 +20,11 @@ const userList = require('./views/userList');
 const todoList = require('./views/todoList');
 const userForm = require('./views/userForm');
 
+
+User.add('jimi h', 'jimi', 'guitar')
+    .then(console.log);
+
+
 app.get('/', (req, res) => {
     const thePage = page('hey there');
     res.send(thePage);

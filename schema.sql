@@ -6,7 +6,7 @@ create table users (
   id serial primary key,
   name text,
   username varchar(200) not null,
-  password varchar(60) not null
+  pwhash varchar(60) not null
 );
 
 -- TODOs
