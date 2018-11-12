@@ -13,7 +13,7 @@ function registrationForm() {
         <br>
         <label>
             Password:
-            <input type="text" name="password">
+            <input type="password" name="password">
         </label>
         <br>
         <input type="submit" value="Register!">
