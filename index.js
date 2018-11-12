@@ -14,12 +14,14 @@ app.use(bodyParser.json());
 
 // const Todo = require('./models/Todo');
 const User = require('./models/User');
+const bcrypt = require('bcrypt');
 
 const page = require('./views/page');
 const userList = require('./views/userList');
 const todoList = require('./views/todoList');
 const userForm = require('./views/userForm');
 const registrationForm = require('./views/registrationForm');
+const loginForm = require('./views/loginForm');
 
 
 app.get('/', (req, res) => {
@@ -92,6 +94,44 @@ app.get('/welcome', (req, res) => {
     // Send them the welcome page
     res.send(page('<h1>Hey punk</h1>'));
 })
+
+// ========================================================
+// User Login
+// ========================================================
+app.get('/login', (req, res) => {
+    // Send them the login form
+    const theForm = loginForm();
+    const thePage = page(theForm);
+    res.send(thePage);
+});
+app.post('/login', (req, res) => {
+    // Process the login form
+    // 1. Grab values from form
+    const theUsername = req.body.username;
+    const thePassword = req.body.password;
+
+    // 2. Find a user whose name
+    // matches `theUsername`
+    User.getByUsername(theUsername)
+        .catch(err => {
+            console.log(err);
+            res.redirect('/login');
+        })
+        .then(theUser => {
+            const didMatch = bcrypt.compareSync(thePassword, theUser.pwhash);
+            if (didMatch) {
+                res.redirect('/welcome');
+            } else {
+                res.redirect('/login');
+            }
+        })
+    // 3. If I find a. user
+    // then, check to see if
+    // the password matches
+
+    // 4. 
+
+});
 
 // ========================================================
 // Retrieve one user's info

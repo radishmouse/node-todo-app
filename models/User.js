@@ -10,13 +10,14 @@ class User {
     // `constructor` is a method
     // that is automatically 
     // called when you create a user
-    constructor(id, name, username) {
+    constructor(id, name, username, pwhash) {
         // define properties that
         // are also the names
         // of the database columns
         this.id = id;
         this.name = name;
         this.username = username;        
+        this.pwhash = pwhash;        
     }
 
     // CREATE
@@ -62,6 +63,15 @@ class User {
             // .catch(err => {
             //     return err;
             // })
+    }
+
+    static getByUsername(username) {
+        return db.one(`
+            select * from users
+            where username ilike '%$1:raw%'          
+        `, [username]).then(result => {
+            return new User(result.id, result.name, result.username,result.pwhash);
+        })
     }
 
     static searchByName(name) {
