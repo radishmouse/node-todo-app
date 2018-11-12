@@ -19,10 +19,7 @@ const page = require('./views/page');
 const userList = require('./views/userList');
 const todoList = require('./views/todoList');
 const userForm = require('./views/userForm');
-
-
-User.add('jimi h', 'jimi', 'guitar')
-    .then(console.log);
+const registrationForm = require('./views/registrationForm');
 
 
 app.get('/', (req, res) => {
@@ -62,6 +59,27 @@ app.post('/users', (req, res) => {
         })
 });
 
+
+// ========================================================
+// User Registration
+// ========================================================
+
+app.get('/register', (req, res) => {
+    // Send them the signup form
+    const theForm = registrationForm();
+    const thePage = page(theForm);
+    res.send(thePage);
+    // res.send(page(registrationForm()));
+});
+app.post('/register', (req, res) => {
+    // Process the signup form
+    // 1. Grab the values out of req.body
+    // 2. Call User.add
+    // 3. If that works, redirect to the welcome page
+});
+app.get('/welcome', (req, res) => {
+    // Send them the welcome page
+})
 
 // ========================================================
 // Retrieve one user's info
