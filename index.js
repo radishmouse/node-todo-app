@@ -28,7 +28,7 @@ app.get('/', (req, res) => {
 // ========================================================
 // ALL USERS
 // ========================================================
-// Listen for a GET request
+// Retrieve all users
 app.get('/users', (req, res) => {
     User.getAll()
         .then(allUsers => {
