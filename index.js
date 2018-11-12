@@ -61,23 +61,18 @@ app.post('/users', (req, res) => {
 app.post('/users/:id([0-9]+)', (req, res) => {
     const id = req.params.id;
     const newName = req.body.name;
-    console.log(id);
-    console.log(newName);
-    // res.send('ok');
-
     // Get the user by their id
     User.getById(id)
         .then(theUser => {
             // call that user's updateName method
             theUser.updateName(newName)
-                .then(result => {
-                    if (result.rowCount === 1) {
+                .then(didUpdate => {
+                    if (didUpdate) {
                         res.send('yeah you did');
                     } else {
                         res.send('💩');
                     }
-                });
-            
+                });            
         });
 });
 

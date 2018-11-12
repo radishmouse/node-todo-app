@@ -22,13 +22,15 @@ class User {
                 (name)
             values
                 ($1)
-            returning id    
+            returning id  
             `, [name])
             .then(data => {
                 const u = new User(data.id, name);
                 return u;
             });
     }
+
+
     
 
     // RETRIEVE
@@ -79,7 +81,17 @@ class User {
             update users
                 set name=$2
             where id=$1
-        `, [this.id, name]);
+        `, [this.id, name])
+        .then(result => {
+            return result.rowCount === 1;
+
+            // same same, but version above is better.
+            // if (result.rowCount === 1) {
+            //     return true;
+            // } else {
+            //     return false;
+            // }
+        })
     }
 
     // DELETE
