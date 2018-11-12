@@ -36,7 +36,7 @@ class User {
     // RETRIEVE
     static getAll() {
         return db.any(`
-            select * from users
+            select * from users order by id
         `).then(userArray => {
             // transform array of objects
             // into array of User instances

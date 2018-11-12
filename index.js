@@ -59,7 +59,7 @@ app.post('/users', (req, res) => {
 // HTML Form cannot send a PUT (or a DELETE).
 // app.post('/users/:id(\\d+)', (req, res) => {
 // app.post(/^\/users\/:id(\d+)/, (req, res) => {
-app.post('/users/:id([0-9]+)', (req, res) => {
+app.post('/users/:id([0-9]+)/edit', (req, res) => {
     const id = req.params.id;
     const newName = req.body.name;
     // Get the user by their id
@@ -69,7 +69,9 @@ app.post('/users/:id([0-9]+)', (req, res) => {
             theUser.updateName(newName)
                 .then(didUpdate => {
                     if (didUpdate) {
-                        res.send('yeah you did');
+                        // res.send('yeah you did');
+                        // res.redirect(`/users/${id}/edit`);
+                        res.redirect(`/users/`);
                     } else {
                         res.send('💩');
                     }
