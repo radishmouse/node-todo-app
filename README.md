@@ -31,3 +31,21 @@
 ### Add functions to query for related data
 
 ### Modify functions, adding `join`s to pull in related data (joining it onto existing `select` statements)
+
+
+
+# Adding a form to edit a user's info
+
+## Add an `edit` link to each `<li>`
+
+Added this to the backtick string in `userToItem` (in the `userList.js` file`).
+
+## Make the link to go an "edit page"
+
+## Add a new route hander to show an edit user form.
+
+## Create a userForm template function
+
+## Confirm that the `app.post` reads the values out of the form
+
+## Send a `res.redirect`

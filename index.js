@@ -18,6 +18,7 @@ const User = require('./models/User');
 const page = require('./views/page');
 const userList = require('./views/userList');
 const todoList = require('./views/todoList');
+const userForm = require('./views/userForm');
 
 app.get('/', (req, res) => {
     const thePage = page('hey there');
@@ -113,8 +114,8 @@ app.post('/users/:id([0-9]+)', (req, res) => {
 
 // Match the string "/users/" followed by one or more digits
 // REGular EXpressions
-// app.get('/users/:id([0-9]+)', (req, res) => {
-app.get(`/users/:id(\\d+)`, (req, res) => {
+// app.get(`/users/:id(\\d+)`, (req, res) => {
+app.get('/users/:id([0-9]+)', (req, res) => {
     // console.log(req.params.id);
     User.getById(req.params.id)
         .catch(err => {
@@ -123,7 +124,7 @@ app.get(`/users/:id(\\d+)`, (req, res) => {
             });
         })
         .then(theUser => {
-            res.send(theUser);
+            res.send(page(userForm(theUser)));
         })
 });
 
