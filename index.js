@@ -115,7 +115,7 @@ app.post('/users/:id([0-9]+)', (req, res) => {
 // Match the string "/users/" followed by one or more digits
 // REGular EXpressions
 // app.get(`/users/:id(\\d+)`, (req, res) => {
-app.get('/users/:id([0-9]+)', (req, res) => {
+app.get('/users/:id([0-9]+)/edit', (req, res) => {
     // console.log(req.params.id);
     User.getById(req.params.id)
         .catch(err => {
@@ -125,6 +125,19 @@ app.get('/users/:id([0-9]+)', (req, res) => {
         })
         .then(theUser => {
             res.send(page(userForm(theUser)));
+        })
+});
+
+app.get('/users/:id([0-9]+)', (req, res) => {
+    // console.log(req.params.id);
+    User.getById(req.params.id)
+        .catch(err => {
+            res.send({
+                message: `no soup for you`
+            });
+        })
+        .then(theUser => {
+            res.send(theUser);
         })
 });
 
