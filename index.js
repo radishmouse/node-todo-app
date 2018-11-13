@@ -4,6 +4,17 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 
+const session = require('express-session');
+const pgSession = require('connect-pg-simple')(session);
+const db = require('./models/db');
+app.use(session({
+    store: new pgSession({
+        pgPromise: db
+    }),
+    secret: 'abc123kasfsdbukbfrkqwuehnfioaebgfskdfhgcniw3y4fto7scdghlusdhbv',
+    saveUninitialized: false
+}));
+
 app.use(express.static('public'));
 
 // Configure body-parser to read data sent by HTML form tags
@@ -92,7 +103,8 @@ app.post('/register', (req, res) => {
 });
 app.get('/welcome', (req, res) => {
     // Send them the welcome page
-    res.send(page('<h1>Hey punk</h1>'));
+    console.log(req.session.user);
+    res.send(page(`<h1>Hey ${req.session.user.username}</h1>`));
 })
 
 // ========================================================
@@ -120,6 +132,7 @@ app.post('/login', (req, res) => {
         .then(theUser => {
             // const didMatch = bcrypt.compareSync(thePassword, theUser.pwhash);
             if (theUser.passwordDoesMatch(thePassword)) {
+                req.session.user = theUser;
                 res.redirect('/welcome');
             } else {
                 res.redirect('/login');

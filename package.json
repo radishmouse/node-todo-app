@@ -6,7 +6,7 @@
   "scripts": {
     "debug": "node --inspect-brk index.js",
     "dev": "nodemon index.js",
-    "reset-db": "dropdb node-todo-app-db; createdb node-todo-app-db; psql -f schema.sql node-todo-app-db; psql -f seed.sql node-todo-app-db",
+    "reset-db": "dropdb node-todo-app-db; createdb node-todo-app-db; psql -f schema.sql node-todo-app-db; psql -f seed.sql node-todo-app-db; psql node-todo-app-db < node_modules/connect-pg-simple/table.sql",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
