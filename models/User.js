@@ -36,7 +36,13 @@ class User {
             });
     }
 
-
+    static from(userObj) {
+        const id = userObj.id;
+        const username = userObj.iusernamed;
+        const name = userObj.name;
+        const pwhash = userObj.pwhash;
+        return new User(id, username, name, pwhash);
+    }
     
 
     // RETRIEVE
