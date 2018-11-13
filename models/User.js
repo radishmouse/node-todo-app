@@ -88,6 +88,10 @@ class User {
         `, [this.id]);
     }
 
+    passwordDoesMatch(thePassword) {
+        const didMatch = bcrypt.compareSync(thePassword, this.pwhash);
+        return didMatch;
+    }
 
     // UPDATE
     updateName(name) {

@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 
 // const Todo = require('./models/Todo');
 const User = require('./models/User');
-const bcrypt = require('bcrypt');
+// const bcrypt = require('bcrypt');
 
 const page = require('./views/page');
 const userList = require('./views/userList');
@@ -118,8 +118,8 @@ app.post('/login', (req, res) => {
             res.redirect('/login');
         })
         .then(theUser => {
-            const didMatch = bcrypt.compareSync(thePassword, theUser.pwhash);
-            if (didMatch) {
+            // const didMatch = bcrypt.compareSync(thePassword, theUser.pwhash);
+            if (theUser.passwordDoesMatch(thePassword)) {
                 res.redirect('/welcome');
             } else {
                 res.redirect('/login');
