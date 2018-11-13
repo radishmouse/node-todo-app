@@ -98,6 +98,7 @@ app.post('/register', (req, res) => {
     User.add(newName, newUsername, newPassword)
         .then(newUser => {
             // 3. If that works, redirect to the welcome page
+            req.session.user = newUser;
             res.redirect('/welcome');
         });
 });
