@@ -105,8 +105,12 @@ app.post('/register', (req, res) => {
 app.get('/welcome', (req, res) => {
     // Send them the welcome page
     console.log(req.session.user);
-    res.send(page(`<h1>Hey ${req.session.user.username}</h1>`));
-})
+    const visitorName = 'Person of the World';
+    if (req.session.user) {
+        visitorName = req.session.user.username;
+    }
+    res.send(page(`<h1>Hey ${visitorName}</h1>`));
+});
 
 // ========================================================
 // User Login
@@ -146,6 +150,14 @@ app.post('/login', (req, res) => {
     // 4. 
 
 });
+
+app.post('/logout', (req, res) => {
+    // 1. destroy the session
+    req.session.destroy();
+    // 2. redirect them to the home page
+    res.redirect('/');
+});
+
 
 // ========================================================
 // Retrieve one user's info
