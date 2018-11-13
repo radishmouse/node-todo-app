@@ -112,7 +112,7 @@ app.get('/welcome', (req, res) => {
     if (req.session.user) {
         visitorName = req.session.user.username;
     }
-    res.send(page(`<h1>Hey ${visitorName}</h1>`));
+    res.send(page(`<h1>Hey ${visitorName}</h1>`, req.session.user));
 });
 
 // ========================================================
