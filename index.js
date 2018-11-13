@@ -99,6 +99,9 @@ app.post('/register', (req, res) => {
     console.log(newPassword);
     // 2. Call User.add
     User.add(newName, newUsername, newPassword)
+        .catch(() => {
+            res.redirect('/register');
+        })
         .then(newUser => {
             // 3. If that works, redirect to the welcome page
             req.session.user = newUser;
@@ -156,9 +159,11 @@ app.post('/login', (req, res) => {
 
 app.post('/logout', (req, res) => {
     // 1. destroy the session
-    req.session.destroy();
+    req.session.destroy(() => {
+        req.session = null;
+        res.redirect('/');
+    });
     // 2. redirect them to the home page
-    res.redirect('/');
 });
 
 
