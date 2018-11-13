@@ -1,4 +1,7 @@
 const db = require('./db');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+
 
 // declare a class named "User"
 class User {
@@ -7,34 +10,39 @@ class User {
     // `constructor` is a method
     // that is automatically 
     // called when you create a user
-    constructor(id, name) {
+    constructor(id, name, username, pwhash) {
         // define properties that
         // are also the names
         // of the database columns
         this.id = id;
         this.name = name;
+        this.username = username;        
+        this.pwhash = pwhash;        
     }
 
     // CREATE
-    static add(name) {
+    static add(name, username, password) {
+        const salt = bcrypt.genSaltSync(saltRounds);
+        const hash = bcrypt.hashSync(password, salt);
         return db.one(`
             insert into users 
-                (name)
+                (name, username, pwhash)
             values
-                ($1)
-            returning id    
-            `, [name])
+                ($1, $2, $3)
+            returning id`, [name, username, hash])
             .then(data => {
-                const u = new User(data.id, name);
+                const u = new User(data.id, name, username);
                 return u;
             });
     }
+
+
     
 
     // RETRIEVE
     static getAll() {
         return db.any(`
-            select * from users
+            select * from users order by id
         `).then(userArray => {
             // transform array of objects
             // into array of User instances
@@ -57,6 +65,15 @@ class User {
             // })
     }
 
+    static getByUsername(username) {
+        return db.one(`
+            select * from users
+            where username ilike '%$1:raw%'          
+        `, [username]).then(result => {
+            return new User(result.id, result.name, result.username,result.pwhash);
+        })
+    }
+
     static searchByName(name) {
         return db.any(`
             select * from users
@@ -71,6 +88,10 @@ class User {
         `, [this.id]);
     }
 
+    passwordDoesMatch(thePassword) {
+        const didMatch = bcrypt.compareSync(thePassword, this.pwhash);
+        return didMatch;
+    }
 
     // UPDATE
     updateName(name) {
@@ -79,7 +100,17 @@ class User {
             update users
                 set name=$2
             where id=$1
-        `, [this.id, name]);
+        `, [this.id, name])
+        .then(result => {
+            return result.rowCount === 1;
+
+            // same same, but version above is better.
+            // if (result.rowCount === 1) {
+            //     return true;
+            // } else {
+            //     return false;
+            // }
+        })
     }
 
     // DELETE

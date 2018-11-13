@@ -4,6 +4,8 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 
+app.use(express.static('public'));
+
 // Configure body-parser to read data sent by HTML form tags
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -12,14 +14,37 @@ app.use(bodyParser.json());
 
 // const Todo = require('./models/Todo');
 const User = require('./models/User');
+// const bcrypt = require('bcrypt');
 
-// Listen for a GET request
+const page = require('./views/page');
+const userList = require('./views/userList');
+const todoList = require('./views/todoList');
+const userForm = require('./views/userForm');
+const registrationForm = require('./views/registrationForm');
+const loginForm = require('./views/loginForm');
+
+
+app.get('/', (req, res) => {
+    const thePage = page('hey there');
+    res.send(thePage);
+});
+
+// ========================================================
+// ALL USERS
+// ========================================================
+// Retrieve all users
 app.get('/users', (req, res) => {
     User.getAll()
         .then(allUsers => {
             // res.status(200).json(allUsers);
-            res.send(allUsers);
-        })
+            // res.send(allUsers);
+            const usersUL = userList(allUsers);
+            const thePage = page(usersUL);
+            console.log(thePage);
+            res.send(thePage);
+
+            // res.send(page(userList(allUsers)));
+        });
 });
 
 // Listen for POST requests
@@ -36,73 +61,81 @@ app.post('/users', (req, res) => {
         })
 });
 
-// Updating an existing user
-// Using POST because HTML Forms can only send GET or POST.
-// HTML Form cannot send a PUT (or a DELETE).
-// app.post('/users/:id(\\d+)', (req, res) => {
-// app.post(/^\/users\/:id(\d+)/, (req, res) => {
-app.post('/users/:id([0-9]+)', (req, res) => {
-    const id = req.params.id;
-    const newName = req.body.name;
-    console.log(id);
-    console.log(newName);
-    // res.send('ok');
 
-    // Get the user by their id
-    User.getByName(id)
-        .then(theUser => {
-            // call that user's updateName method
-            theUser.updateName(newName)
-                .then(result => {
-                    if (result.rowCount === 1) {
-                        res.send('yeah you did');
-                    } else {
-                        res.send('💩');
-                    }
-                });
-            
+// ========================================================
+// User Registration
+// ========================================================
+
+app.get('/register', (req, res) => {
+    // Send them the signup form
+    const theForm = registrationForm();
+    const thePage = page(theForm);
+    res.send(thePage);
+    // res.send(page(registrationForm()));
+});
+app.post('/register', (req, res) => {
+    // Process the signup form
+    // 1. Grab the values out of req.body
+    const newName = req.body.name;
+    const newUsername = req.body.username;
+    const newPassword = req.body.password;
+
+    console.log(newName);
+    console.log(newUsername);
+    console.log(newPassword);
+    // 2. Call User.add
+    User.add(newName, newUsername, newPassword)
+        .then(newUser => {
+            // 3. If that works, redirect to the welcome page
+            res.redirect('/welcome');
         });
 });
+app.get('/welcome', (req, res) => {
+    // Send them the welcome page
+    res.send(page('<h1>Hey punk</h1>'));
+})
 
-// Example of grabbing a user by an
-// imaginary "getByName" method.
-// app.post('/users/name/:name([A-Z0-9]+)', (req, res) => {
-//     const name = req.params.name;
-//     const newName = req.body.name;
-//     console.log(id);
-//     console.log(newName);
-//     // res.send('ok');
+// ========================================================
+// User Login
+// ========================================================
+app.get('/login', (req, res) => {
+    // Send them the login form
+    const theForm = loginForm();
+    const thePage = page(theForm);
+    res.send(thePage);
+});
+app.post('/login', (req, res) => {
+    // Process the login form
+    // 1. Grab values from form
+    const theUsername = req.body.username;
+    const thePassword = req.body.password;
 
-//     // Get the user by their id
-//     User.getByName(name)
-//         .then(theUser => {
-//             // call that user's updateName method
-//             theUser.updateName(newName)
-//                 .then(result => {
-//                     if (result.rowCount === 1) {
-//                         res.send('yeah you did');
-//                     } else {
-//                         res.send('💩');
-//                     }
-//                 });
-            
-//         });
-// });
+    // 2. Find a user whose name
+    // matches `theUsername`
+    User.getByUsername(theUsername)
+        .catch(err => {
+            console.log(err);
+            res.redirect('/login');
+        })
+        .then(theUser => {
+            // const didMatch = bcrypt.compareSync(thePassword, theUser.pwhash);
+            if (theUser.passwordDoesMatch(thePassword)) {
+                res.redirect('/welcome');
+            } else {
+                res.redirect('/login');
+            }
+        })
+    // 3. If I find a. user
+    // then, check to see if
+    // the password matches
 
+    // 4. 
 
+});
 
-
-
-
-
-
-
-
-
-// Match the string "/users/" followed by one or more digits
-// REGular EXpressions
-// app.get('/users/:id([0-9]+)', (req, res) => {
-app.get(`/users/:id(\\d+)`, (req, res) => {
+// ========================================================
+// Retrieve one user's info
+app.get('/users/:id([0-9]+)', (req, res) => {
     // console.log(req.params.id);
     User.getById(req.params.id)
         .catch(err => {
@@ -115,52 +148,61 @@ app.get(`/users/:id(\\d+)`, (req, res) => {
         })
 });
 
-app.get('/users/register', (req, res) => {
-    res.send('you are on the registration page. no really.');
-});
-
-app.get('/users/:id(\\d+)/rename/:newName', (req, res) => {
+// ========================================================
+// Retrieve all todos for a user
+app.get(`/users/:id(\\d+)/todos`, (req, res) => {
     User.getById(req.params.id)
-        .then(user => {
-            user.updateName(req.params.newName)
-                .then(() => {
-                    res.send('you just renamed them!');
+        .then(theUser => {
+            theUser.getTodos()
+                .then(allTodos => {
+                    const todosUL = todoList(allTodos);
+                    const thePage = page(todosUL);
+                    res.send(thePage);
                 })
         })
 });
 
-app.listen(3000, () => {
-    console.log('You express app is ready!');
+
+// ========================================================
+// GET the form for editing one user's info
+app.get('/users/:id([0-9]+)/edit', (req, res) => {
+    // console.log(req.params.id);
+    User.getById(req.params.id)
+        .catch(err => {
+            res.send({
+                message: `no soup for you`
+            });
+        })
+        .then(theUser => {
+            res.send(page(userForm(theUser)));
+        })
+});
+
+// ========================================================
+// Process the form for editing one user's info
+app.post('/users/:id([0-9]+)/edit', (req, res) => {
+    const id = req.params.id;
+    const newName = req.body.name;
+    // Get the user by their id
+    User.getById(id)
+        .then(theUser => {
+            // call that user's updateName method
+            theUser.updateName(newName)
+                .then(didUpdate => {
+                    if (didUpdate) {
+                        // res.send('yeah you did');
+                        // res.redirect(`/users/${id}/edit`);
+                        res.redirect(`/users/`);
+                    } else {
+                        res.send('💩');
+                    }
+                });            
+        });
 });
 
 
-// ===== example of sending a whole page
+// ========================================================
 
-/*
-    User.getAll()
-        .then(allUsers => {
-            let usersList = ``;
-            allUsers.forEach(user => {
-                usersList += `<li>${user.name}</li>`
-            });
-            let thePage = `
-              <!doctype>
-              <html>
-                <head>
-                </head>
-                <body>
-                    <h1>hey</h1>
-                    <ul>
-                        ${usersList}
-                    </ul>
-                </body>
-              </html>
-            `;
-            res.send(thePage);
-            // console.log(allUsers);
-            // res.send(allUsers);
-            // res.send(allUsers);
-            // res.status(200).json(allUsers);
-        })
-    // res.send('Hellooooooo Expresssssssssssssuh');
-*/
+app.listen(3000, () => {
+    console.log('You express app is ready!');
+});
