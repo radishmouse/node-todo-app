@@ -12,7 +12,10 @@ app.use(session({
         pgPromise: db
     }),
     secret: 'abc123kasfsdbukbfrkqwuehnfioaebgfskdfhgcniw3y4fto7scdghlusdhbv',
-    saveUninitialized: false
+    saveUninitialized: false,
+    cookie: { 
+        maxAge: 30 * 24 * 60 * 60 * 1000 
+    } 
 }));
 
 app.use(express.static('public'));
@@ -105,7 +108,7 @@ app.post('/register', (req, res) => {
 app.get('/welcome', (req, res) => {
     // Send them the welcome page
     console.log(req.session.user);
-    const visitorName = 'Person of the World';
+    let visitorName = 'Person of the World';
     if (req.session.user) {
         visitorName = req.session.user.username;
     }
