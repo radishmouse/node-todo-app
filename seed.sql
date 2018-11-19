@@ -7,6 +7,13 @@ values
     ('play cards against humanity with yoda', false),
     ('return david bowie''s texts', false);
 
+insert into images
+    (url, todo_id)
+values
+    ('/images/1.jpg', 2),
+    ('/images/2.jpg', 2),
+    ('/images/3.jpg', 1);
+
 insert into users
     (name, username, pwhash)
 values

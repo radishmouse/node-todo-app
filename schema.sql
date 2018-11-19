@@ -18,3 +18,9 @@ create table todos (
   completed boolean,
   user_id integer references users (id) on delete cascade
 );
+
+create table images (
+  id serial primary key,
+  url text,
+  todo_id integer references todos (id) on delete cascade
+)
