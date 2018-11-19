@@ -1,5 +1,29 @@
 const db = require('./db');
 
+class Album {
+  constructor() {
+
+  }
+
+  static getAlbumByCode(code) {
+      return db.one(`select * from albums where code = $1`, [code]);
+  }
+
+  getImages() {
+      return db.any(`select * from images where album_id = $1`, [this.id])
+  }
+  
+}
+
+
+// class Image {
+//     constructor() {
+
+//     }
+// }
+
+
+
 
 // CREATE
 function add(name, completed) {

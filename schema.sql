@@ -12,15 +12,15 @@ create table users (
 -- TODOs
 -- name
 -- completed
-create table todos (
+create table albums (
   id serial primary key,
   name text,
-  completed boolean,
+  code text,
   user_id integer references users (id) on delete cascade
 );
 
 create table images (
   id serial primary key,
   url text,
-  todo_id integer references todos (id) on delete cascade
+  album_id integer references todos (id) on delete cascade
 )
