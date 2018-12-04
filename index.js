@@ -12,13 +12,41 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Configure body-parser to read JSON bodies
 app.use(bodyParser.json());
 
-// const Todo = require('./models/Todo');
+const Todo = require('./models/Todo');
 const User = require('./models/User');
 
 const page = require('./views/page');
 const userList = require('./views/userList');
 const todoList = require('./views/todoList');
-const userForm = require('./views/userForm');
+// const userForm = require('./views/userForm');
+
+// Retrieve
+
+// Retrieve
+app.get('/todos', (req, res) => {
+    Todo.getAll()
+        .then(todos => {
+            res.json(todos);
+        })
+});
+
+app.post('/todos', (req, res) => {
+    Todo.add(req.body.name)
+        .then(data => {
+            res.json(data);
+        })
+});
+
+app.get('/todos/:id', (req, res) => {
+    Todo.getById(req.params.id)
+        .then(todo => res.json(todo));
+})
+
+app.delete('/todos/:id', (req, res) => {
+    Todo.deleteById(req.params.id)
+        .then(todo => res.json(todo));
+})
+
 
 app.get('/', (req, res) => {
     const thePage = page('hey there');
@@ -112,21 +140,21 @@ app.post('/users/:id([0-9]+)', (req, res) => {
 
 
 
-// Match the string "/users/" followed by one or more digits
-// REGular EXpressions
-// app.get(`/users/:id(\\d+)`, (req, res) => {
-app.get('/users/:id([0-9]+)/edit', (req, res) => {
-    // console.log(req.params.id);
-    User.getById(req.params.id)
-        .catch(err => {
-            res.send({
-                message: `no soup for you`
-            });
-        })
-        .then(theUser => {
-            res.send(page(userForm(theUser)));
-        })
-});
+// // Match the string "/users/" followed by one or more digits
+// // REGular EXpressions
+// // app.get(`/users/:id(\\d+)`, (req, res) => {
+// app.get('/users/:id([0-9]+)/edit', (req, res) => {
+//     // console.log(req.params.id);
+//     User.getById(req.params.id)
+//         .catch(err => {
+//             res.send({
+//                 message: `no soup for you`
+//             });
+//         })
+//         .then(theUser => {
+//             res.send(page(userForm(theUser)));
+//         })
+// });
 
 app.get('/users/:id([0-9]+)', (req, res) => {
     // console.log(req.params.id);
