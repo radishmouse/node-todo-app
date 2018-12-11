@@ -8,6 +8,13 @@ function add(name, completed) {
             ($1, $2)
         returning id    
     `, [name, completed])
+    .then(data => {
+        return {
+            id: data.id,
+            name,
+            completed
+        }
+    })
 }
 
 // RETRIEVE
