@@ -22,17 +22,17 @@ class User {
     }
 
     // CREATE
-    static add(name, username, password) {
+    static add(name, username, password, githubid) {
         const salt = bcrypt.genSaltSync(saltRounds);
         const hash = bcrypt.hashSync(password, salt);
         return db.one(`
             insert into users 
-                (name, username, pwhash)
+                (name, username, pwhash, githubid)
             values
-                ($1, $2, $3)
-            returning id`, [name, username, hash])
+                ($1, $2, $3, $4)
+            returning id`, [name, username, hash, githubid])
             .then(data => {
-                const u = new User(data.id, name, username);
+                const u = new User(data.id, name, username, hash, githubid);
                 return u;
             });
     }
