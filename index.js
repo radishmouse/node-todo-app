@@ -18,6 +18,9 @@ app.use(session({
     } 
 }));
 
+const setupAuth = require('./auth');
+setupAuth(app);
+
 app.use(express.static('public'));
 
 // Configure body-parser to read data sent by HTML form tags

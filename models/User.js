@@ -10,7 +10,7 @@ class User {
     // `constructor` is a method
     // that is automatically 
     // called when you create a user
-    constructor(id, name, username, pwhash) {
+    constructor(id, name, username, pwhash, githubid) {
         // define properties that
         // are also the names
         // of the database columns
@@ -18,6 +18,7 @@ class User {
         this.name = name;
         this.username = username;        
         this.pwhash = pwhash;        
+        this.githubid = githubid;
     }
 
     // CREATE
@@ -64,6 +65,16 @@ class User {
         return db.one('select * from users where id = $1', [id])
             .then(result => {
                 const u = new User(result.id, result.name);
+                return u;
+            })
+            // .catch(err => {
+            //     return err;
+            // })
+    }
+    static getByGithubID(githubid) {
+        return db.one('select * from users where githubid = $1', [githubid])
+            .then(result => {
+                const u = new User(result.id, result.name, result.username, '', githubid);
                 return u;
             })
             // .catch(err => {
